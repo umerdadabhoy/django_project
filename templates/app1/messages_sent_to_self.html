@@ -1,0 +1,25 @@
+{% extends 'app1/app1_base.html' %}
+
+{% block content %}
+<div class="container card">
+    <div class="card-head">Messages sent to {{receiver}}</div>
+    <div class="card-body">
+        <table class="table table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for line in messages %}
+                <tr>
+                    <td>{{line.0}}</td>
+                    <td>{{line.1}}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block top %}
+<div class="bg-dark my-5" >
+    <nav>
+        <ul class="nav">
+            <li><a class="nav-item btn text-white" href="{% url 'app1.index' %}">Send Message</a></li>
+            <li><a class="nav-item btn text-white" href="{% url 'app1.messages_received' %}">Messages Recieved</a></li>
+            <li><a class="nav-item btn text-white" href="{% url 'app1.messages_sent_to_others' %}">Messages Sent To Others</a></li>
+            <li><a class="nav-item btn text-white" href="{% url 'app1.messages_sent_to_self' %}">Messages Sent To Self</a></li>
+        </ul>
+    </nav>
+</div>
+
+{% endblock %}

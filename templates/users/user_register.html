@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container card">
+    <div class="card-header">
+        Register First
+    </div>
+    <div class="card-body">
+        <form method="post" action="" name="register">
+            {% csrf_token %}
+            <table class="table table-striped table-hover" name="login-table">
+
+                <tbody>
+                    <tr>
+                        <th>
+                            <label for="username">Username</label>
+                        </th>
+                        <td>
+                            <input type="text" name="username" required>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="email">Email</label>
+                        </th>
+                        <td>
+                            <input type="email" name="email" required>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="password">Password</label>
+                        </th>
+                        <td>
+                            <input type="password" name="password" minlength="6" required>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <th>
+                            <label for="password1">Type Password Again</label>
+                        </th>
+                        <td>
+                            <input type="password" name="password1" required>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td>
+                            <button class="btn btn-primary text-white" type="submit" name="submit">Submit</button>
+                            
+                            <button onclick="location.href='{% url 'users.login' %}'" class="btn btn-primary text-white" type="button" name="login">
+                                Login
+                            </button>
+                            
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </form>
+    </div>
+    <div id="emailcheck" name="emailcheck"></div>
+</div>
+<script>
+    function comparePasswords() {
+        var password = document.getElementsByName('password')[0];
+        var password1 = document.getElementsByName('password1')[0];
+        if (password.value != password1.value) {
+            alert("Passwords are not same");
+            event.preventDefault();
+        }
+
+    };
+
+    function checkEmail() {
+        var email = document.getElementsByName('email')[0];
+        var CSRFtoken = document.getElementsByName('csrfmiddlewaretoken')[0];
+        var emailCheck = document.getElementById('emailcheck');
+
+        var posting = $.post("{% url 'users.check_email' %}", {
+            email: email.value,
+            csrfmiddlewaretoken: CSRFtoken.value
+        },
+        )
+        posting.done(
+            function (data) {
+                data = String(data).trim();
+                emailCheck.value = data;
+                
+                if (data === "True") {
+                    alert("Email Already exist, Use Login Option");
+                    event.preventDefault();
+                };
+            });
+
+    };
+    function checkEmail1(){
+        var emailCheck = document.getElementById('emailcheck');
+        if (emailCheck.value === "True"){
+            alert("Email Already exist, Use Login Option");
+            event.preventDefault();
+        }
+    };
+    //event to run on submit
+    $('[name="submit"]').click(
+        function check() {
+            comparePasswords();
+            checkEmail1();
+        });
+    //event to run when field gets selected unselected
+    $('[name="email"]').off('change').on('change', function myfunc() {
+
+        checkEmail();
+    });
+</script>
+{% endblock %}
